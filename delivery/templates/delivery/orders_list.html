@@ -1,0 +1,20 @@
+{% extends 'delivery/base.html' %}
+{% block title %}Order list{% endblock %}
+
+{% block content %}
+<div class="orders-container">
+        <h1>Order List</h1>
+        <ul class="orders-list">
+            <li>
+                <div class="orders">
+                    {% for order in orders %}
+                        <p><strong>Client Name:</strong> {{ order.fio }} </p>
+                        <p><strong>Address:</strong> {{ order.address }} </p>
+                        <p><strong>Phone number</strong> {{ order.phone_number }} </p>
+                        <a href="{% url 'order_products' order.pk %}" class="view-btn">View</a>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+</div>
+{% endblock %}

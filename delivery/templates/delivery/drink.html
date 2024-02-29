@@ -1,0 +1,25 @@
+{% extends 'delivery/base.html' %}
+{% block title %}
+    {{ drink.name }}
+{% endblock %}
+
+{% block content %}
+<div class="product-container">
+    <h1>{{ drink.name }} info</h1>
+    <div class="product-info">
+        <div class="product-image">
+            <img src="{{ drink.photo.url }}">
+        </div>
+        <div class="product-description">
+            <h2>{{ drink.name }}</h2>
+            <p>price: {{ drink.price }}</p>
+            <p>volume: {{ drink.volume }}</p>
+            <div class="actions">
+                <a href="{% url 'drink_update' drink.id %}" class="btn-update">Update</a>
+                <a href="{% url 'drink_delete' drink.id %}" class="btn-delete">Delete</a>
+                <a href="{% url 'menu' %}" class="btn-back">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'delivery/base.html' %}
+{% block title %}
+    {{ food.name }}
+{% endblock %}
+
+{% block content %}
+<div class="product-container">
+    <h1>{{ food.name }} info</h1>
+    <div class="product-info">
+        <div class="product-image">
+            <img src="{{ food.photo.url }}">
+        </div>
+        <div class="product-description">
+            <h2>{{ food.name }}</h2>
+            <p><strong>price: {{ food.price }}</strong></p>
+            <p><strong>weight: {{ food.weight }}</strong></p>
+            <p><strong>description: {{ food.description }}</strong></p>
+            <div class="actions">
+                <a href="{% url 'food_update' food.id %}" class="btn-delete">Update</a>
+                <a href="{% url 'food_delete' food.id %}" class="btn-update">Delete</a>
+                <a href="{% url 'menu' %}" class="btn-back">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

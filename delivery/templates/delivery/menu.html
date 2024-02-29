@@ -1,0 +1,35 @@
+{% extends 'delivery/base.html' %}
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Menu</h1>
+    <div class="product-grid">
+        {% for food in foods %}
+            <div class="product">
+                <img src="{{ food.photo.url }}" alt="{{ food.name }}">
+                <h2>{{ food.name }}</h2>
+                <p class="price">price: {{ food.price }}</p>
+                <a href="{% url 'food_detail' food.pk %}" class="btn-detail">
+                    detail
+                </a><br>
+            </div>
+        {% endfor %}
+        {% for drink in drinks %}
+            <div class="product">
+                <img src="{{ drink.photo.url }}" alt="{{ drink.name }}">
+                <h2>{{ drink.name }}</h2>
+                <p class="price">price: {{ drink.price }}</p>
+                <a href="{% url 'drink_detail' drink.pk %}" class="btn-detail">
+                    detail
+                </a><br>
+            </div>
+        {% endfor %}
+        <div class="actions">
+            <a href="{% url 'create_order' %}" class="btn">Make Order</a><br>
+            <a href="{% url 'orders_list' %}" class="btn">Orders List</a><br>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
