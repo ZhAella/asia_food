@@ -1,0 +1,16 @@
+{% extends 'delivery/base.html' %}
+{% block title %}Delete{% endblock %}
+
+{% block content %}
+    <div class="product-container">
+        <h1>Delete {{ food.name }}</h1>
+        <p>Are you sure you want to delete "{{ food.name }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="actions">
+                <button type="submit" class="button delete">Yes, delete</button>
+                <a href="{% url 'food_detail' food.id %}" class="btn-back">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

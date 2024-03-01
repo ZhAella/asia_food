@@ -16,8 +16,8 @@
             <p><strong>weight: {{ food.weight }}</strong></p>
             <p><strong>description: {{ food.description }}</strong></p>
             <div class="actions">
-                <a href="{% url 'food_update' food.id %}" class="btn-delete">Update</a>
-                <a href="{% url 'food_delete' food.id %}" class="btn-update">Delete</a>
+                <a href="{% url 'food_update' food.id %}" class="btn-update">Update</a>
+                <a href="{% url 'food_delete' food.id %}" class="btn-delete">Delete</a>
                 <a href="{% url 'menu' %}" class="btn-back">Back</a>
             </div>
         </div>

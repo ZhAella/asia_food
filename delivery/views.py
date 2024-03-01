@@ -1,143 +1,71 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import (ListView, DetailView,
+                                  CreateView, UpdateView,
+                                  DeleteView)
+from django.urls import reverse_lazy
 from django.views import View
 from . import models
 
 
-class MenuView(View):
-    foods: tuple
-    drinks: tuple
+class MenuView(ListView):
+    model = models.Food
+    template_name = 'delivery/menu.html'
+    context_object_name = 'foods'
 
-    def get(self, request):
-        self.foods = models.Food.objects.all()
-        self.drinks = models.Drink.objects.all()
-        return render(request,
-                      'delivery/menu.html',
-                      {'foods': self.foods, 'drinks': self.drinks}
-                      )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['drinks'] = models.Drink.objects.all()
+        return context
 
 
-class FoodDetailView(View):
-    food: models.Food
-
-    def get(self, request, pk):
-        self.food = get_object_or_404(models.Food, pk=pk)
-        return render(request,
-                      'delivery/food.html',
-                      {'food': self.food}
-                      )
+class FoodDetailView(DetailView):
+    model = models.Food
+    template_name = 'delivery/food.html'
+    context_object_name = 'food'
 
 
-class DrinkDetailView(View):
-    drink: models.Drink
-
-    def get(self, request, pk):
-        self.drink = get_object_or_404(models.Drink, pk=pk)
-        return render(request,
-                      'delivery/drink.html',
-                      {'drink': self.drink}
-                      )
+class DrinkDetailView(DetailView):
+    model = models.Drink
+    template_name = 'delivery/drink.html'
+    context_object_name = 'drink'
 
 
-class FoodCreateView(View):
-    food: models.Food
-
-    def get(self, request):
-        self.food = models.Food.objects.all()
-        return render(request,
-                      'delivery/food_create.html',
-                      {'food': self.food}
-                      )
-
-    def post(self, request):
-        self.food = models.Food.objects.create(
-            name=request.POST['name'],
-            price=request.POST['price'],
-            weight=request.POST['weight'],
-            photo=request.FILES['photo'],
-            description=request.POST['description']
-        )
-        self.food.save()
-        return redirect('/')
+class FoodCreateView(CreateView):
+    model = models.Food
+    template_name = 'delivery/food_create.html'
+    fields = ['name', 'price', 'weight', 'description', 'photo']
+    success_url = reverse_lazy('menu')
 
 
-class DrinkCreateView(View):
-    drink: models.Drink
-
-    def get(self, request):
-        self.drink = models.Drink.objects.all()
-        return render(request,
-                      'delivery/drink_create.html',
-                      {'drink': self.drink}
-                      )
-
-    def post(self, request):
-        self.drink = models.Drink.objects.create(
-            name=request.POST['name'],
-            price=request.POST['price'],
-            volume=request.POST['volume'],
-            photo=request.FILES['photo'],
-        )
-        self.drink.save()
-        return redirect('/')
+class DrinkCreateView(CreateView):
+    model = models.Drink
+    template_name = 'delivery/drink_create.html'
+    fields = ['name', 'price', 'volume', 'photo']
+    success_url = reverse_lazy('menu')
 
 
-class FoodUpdateView(View):
-    food: models.Food
-
-    def get(self, request, pk):
-        self.food = get_object_or_404(models.Food, pk=pk)
-        return render(request,
-                      'delivery/food_update.html',
-                      {'food': self.food})
-
-    def post(self, request, pk):
-        self.food = get_object_or_404(models.Food, pk=pk)
-        self.food.name = request.POST['name']
-        self.food.price = request.POST['price']
-        self.food.weight = request.POST['weight']
-        self.food.photo = request.FILES['photo']
-        self.food.description = request.POST['description']
-        self.food.save()
-        return redirect('/')
+class FoodUpdateView(UpdateView):
+    model = models.Food
+    template_name = 'delivery/food_update.html'
+    fields = ['name', 'price', 'weight', 'description', 'photo']
+    success_url = reverse_lazy('menu')
 
 
-class DrinkUpdateView(View):
-    drink: models.Drink
-
-    def get(self, request, pk):
-        self.drink = get_object_or_404(models.Drink, pk=pk)
-        return render(request,
-                      'delivery/drink_update.html',
-                      {'drink': self.drink})
-
-    def post(self, request, pk):
-        self.drink = get_object_or_404(models.Drink, pk=pk)
-        self.drink.name = request.POST['name']
-        self.drink.price = request.POST['price']
-        self.drink.volume = request.POST['volume']
-        self.drink.photo = request.FILES['photo']
-        self.drink.save()
-        return redirect('/')
+class DrinkUpdateView(UpdateView):
+    model = models.Drink
+    template_name = 'delivery/drink_update.html'
+    fields = ['name', 'price', 'volume', 'photo']
+    success_url = reverse_lazy('menu')
 
 
-class FoodDeleteView(View):
-    food: models.Food
-
-    def get(self, request, pk):
-        self.food = get_object_or_404(models.Food, pk=pk)
-        self.food.photo.delete()
-        self.food.delete()
-        return redirect('/')
+class FoodDeleteView(DeleteView):
+    model = models.Food
+    success_url = reverse_lazy('menu')
 
 
-class DrinkDeleteView(View):
-    drink: models.Drink
-
-    def get(self, request, pk):
-        self.drink = get_object_or_404(models.Drink, pk=pk)
-        self.drink.photo.delete()
-        self.drink.delete()
-        return redirect('/')
+class DrinkDeleteView(DeleteView):
+    model = models.Drink
+    success_url = reverse_lazy('menu')
 
 
 class CreateOrderView(View):
