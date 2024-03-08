@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (ListView, DetailView,
                                   CreateView, UpdateView,
-                                  DeleteView)
+                                  DeleteView, TemplateView)
 from django.urls import reverse_lazy
 from django.views import View
-from . import models
+from . import models, utils
 
 
 class MenuView(ListView):
@@ -68,64 +68,72 @@ class DrinkDeleteView(DeleteView):
     success_url = reverse_lazy('menu')
 
 
-class CreateOrderView(View):
-    drinks: tuple
-    foods: tuple
+class OrderCreateView(TemplateView):
+    template_name = 'delivery/create_order.html'
 
-    def get(self, request):
-        self.foods = models.Food.objects.all()
-        self.drinks = models.Drink.objects.all()
-        return render(request,
-                      'delivery/create_order.html',
-                      {'foods': self.foods, 'drinks': self.drinks}
-                      )
     @staticmethod
     def post(request):
-        order = models.Order.objects.create(
-            fio=request.POST['fio'],
-            address=request.POST['address'],
-            phone_number=request.POST['phone_number']
-        )
-        order.save()
-
-        food_order = models.OrderFood.objects.create(
-            food=get_object_or_404(models.Food, pk=request.POST['food']),
-            food_quantity=request.POST['food_quantity'],
-            order=order
-        )
-        food_order.save()
-
-        drink_order = models.OrderDrink.objects.create(
-            drink=get_object_or_404(models.Drink, pk=request.POST['drink']),
-            drink_quantity=request.POST['drink_quantity'],
-            order=order
-        )
-        drink_order.save()
-        return redirect('/')
+        request.session['fio'] = request.POST['fio']
+        request.session['address'] = request.POST['address']
+        request.session['phone_number'] = request.POST['phone_number']
+        return redirect('ordered_products')
 
 
-class OrdersListView(View):
-    orders: tuple
-
-    def get(self, request):
-        self.orders = models.Order.objects.all()
-
+class OrderProductsCreateView(View):
+    @staticmethod
+    def get(request):
+        foods = models.Food.objects.all()
+        drinks = models.Drink.objects.all()
         return render(request,
-                      'delivery/orders_list.html',
-                      {'orders': self.orders}
+                      'delivery/ordered_products.html',
+                      {'foods': foods, 'drinks': drinks}
                       )
 
+    @staticmethod
+    def post(request):
+        food_ids = request.POST.getlist('foods')
+        drink_ids = request.POST.getlist('drinks')
+        order = utils.create_order(request.session['fio'],
+                                   request.session['address'],
+                                   request.session['phone_number'],
+                                   0)
+        total_price = 0
 
-def order_products(request, pk):
-    order = models.Order.objects.filter(pk=pk)
-    foods = models.OrderFood.objects.get(order=order)
-    drinks = get_object_or_404(models.OrderDrink, order=order)
+        for food_id in food_ids:
+            food = get_object_or_404(models.Food, id=food_id)
+            order_food = utils.create_order_food(food, order,
+                                                 request.POST[f'quantity{food_id}'])
+            total_price += order_food.price
+            order_food.save()
 
-    return render(request,
-                  'delivery/order_products.html',
-                  {
-                      'order': order,
-                      'food': foods,
-                      'drink': drinks}
-                  )
+        for drink_id in drink_ids:
+            drink = get_object_or_404(models.Drink, id=drink_id)
+            order_drink = utils.create_order_drink(drink, order,
+                                                   request.POST[f'quantity{drink_id}'])
+            total_price += order_drink.price
+            order_drink.save()
 
+        order.total_price = total_price
+        order.save()
+
+        return redirect('menu')
+
+
+class OrderListView(ListView):
+    model = models.Order
+    template_name = 'delivery/orders_list.html'
+    context_object_name = 'orders'
+
+
+class OrderDetailView(DetailView):
+    model = models.Order
+    template_name = 'delivery/orders_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = self.get_object()
+        order_foods = order.orderfood_set.all()
+        order_drinks = order.orderdrink_set.all()
+        context['order_foods'] = order_foods
+        context['order_drinks'] = order_drinks
+        return context

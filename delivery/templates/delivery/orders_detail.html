@@ -1,0 +1,36 @@
+{% extends 'delivery/base.html' %}
+{% block title %}Order list{% endblock %}
+
+{% block content %}
+<div class="order-table-container">
+    <h1>Order List</h1>
+    <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Photo</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for order_food in order_foods %}
+                        <tr>
+                            <td>{{ order_food.food.name }}</td>
+                            <td><img src="{{ order_food.food.photo.url }}" alt="{{ order_food.food.name }}"></td>
+                            <td>{{ order_food.quantity }}</td>
+                            <td>{{ order_food.price }} KGS</td>
+                        </tr>
+                        {% endfor %}
+                        {% for order_drink in order_drinks %}
+                        <tr>
+                            <td>{{ order_drink.drink.name }}</td>
+                            <td><img src="{{ order_drink.drink.photo.url }}" alt="{{ order_drink.drink.name }}"></td>
+                            <td>{{ order_drink.quantity }}</td>
+                            <td>{{ order_drink.price }} KGS</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+</div>
+{% endblock %}

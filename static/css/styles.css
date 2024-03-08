@@ -213,13 +213,21 @@ h1 {
 }
 
 .update-product-form input[type="text"],
-.update-product-form textarea,
 .update-product-form input[type="file"] {
-    width: 100%;
+    width: calc(100% - 22px); /* Adjusted width to consider the padding and border */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+}
+
+.update-product-form textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
 }
 
 .update-product-form input[type="file"] {
@@ -270,7 +278,7 @@ label {
 input[type="text"],
 input[type="tel"],
 input[type="number"],
-button[type="submit"] {
+.btn-next {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -278,59 +286,157 @@ button[type="submit"] {
     box-sizing: border-box;
 }
 
-button[type="submit"] {
+.btn-next {
     background-color: #007bff;
     color: #fff;
     cursor: pointer;
 }
 
-button[type="submit"]:hover {
+.btn-next:hover {
+    background-color: #0056b3;
+}
+.orders-container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.orders-table th {
+    background-color: #f2f2f2;
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.orders-table tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.orders-table .view-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.orders-table .view-btn:hover {
     background-color: #0056b3;
 }
 
-.orders-container {
+
+h1 {
+    text-align: center;
+}
+
+form {
     max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+
+.menu-item {
+    display: inline-block;
+    margin: 20px;
+    text-align: center;
+}
+
+.menu-item img {
+    width: 200px;
+    height: 150px;
     border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.menu-item h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.menu-item p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #777;
+}
+
+.menu-item input[type="checkbox"] {
+    display: none;
+}
+
+.menu-item label {
+    display: block;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.menu-item input[type="checkbox"]:checked + label {
+    border-color: #007bff;
+}
+
+.btn-submit {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
 }
 
-.order-list {
-    list-style-type: none;
-    padding: 0;
+.order-table-container {
+    max-width: 800px;
+    margin: 20px auto;
 }
 
-.order {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 15px;
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.order p {
-    margin: 5px 0;
-}
-
-.view-btn {
-    display: block;
-    width: 100px;
+.order-table th,
+.order-table td {
+    border: 1px solid #ddd;
     padding: 8px;
-    text-align: center;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
+    text-align: left;
 }
 
-.view-btn:hover {
-    background-color: #0056b3;
+.order-table th {
+    background-color: #f2f2f2;
 }
 
+.order-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-table tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.order-table img {
+    max-width: 100px;
+    height: auto;
+}

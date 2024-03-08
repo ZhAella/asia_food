@@ -3,18 +3,27 @@
 
 {% block content %}
 <div class="orders-container">
-        <h1>Order List</h1>
-        <ul class="orders-list">
-            <li>
-                <div class="orders">
-                    {% for order in orders %}
-                        <p><strong>Client Name:</strong> {{ order.fio }} </p>
-                        <p><strong>Address:</strong> {{ order.address }} </p>
-                        <p><strong>Phone number</strong> {{ order.phone_number }} </p>
-                        <a href="{% url 'order_products' order.pk %}" class="view-btn">View</a>
-                    {% endfor %}
-                </div>
-            </li>
-        </ul>
+    <h1>Order List</h1>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Client Name</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.fio }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.phone_number }}</td>
+                <td><a href="{% url 'orders_detail' order.pk %}" class="view-btn">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+
 {% endblock %}

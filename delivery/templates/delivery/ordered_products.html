@@ -1,0 +1,32 @@
+{% extends 'delivery/base.html' %}
+{% block title %}Order{% endblock %}
+
+{% block content %}
+    <h1>Order Food & Drinks</h1>
+    <form action="{% url 'ordered_products' %}" method="post">
+    {% csrf_token %}
+        {% for food in foods %}
+            <div class="menu-item">
+                <input type="checkbox" id="{{ food.name }}" name="foods" value="{{ food.id }}">
+                <label for="{{ food.name }}">
+                    <img src="{{ food.photo.url }}" alt="{{ food.name }}">
+                    <h2>{{ food.name }}</h2>
+                    <p>{{ food.price }}</p>
+                </label>
+                <input type="number" name="quantity{{ food.id }}" value="1" min="1" max="10">
+            </div>
+        {% endfor %}
+        {% for drink in drinks %}
+            <div class="menu-item">
+                <input type="checkbox" id="{{ drink.name }}" name="drinks" value="{{ drink.id }}">
+                <label for="{{ drink.name }}">
+                    <img src="{{ drink.photo.url }}" alt="{{ drink.name }}">
+                    <h2>{{ drink.name }}</h2>
+                    <p>{{ drink.price }}</p>
+                </label>
+                <input type="number" name="quantity{{ drink.id }}" value="1" min="1" max="10">
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn-submit">Submit Order</button>
+    </form>
+{% endblock %}
