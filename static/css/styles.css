@@ -15,6 +15,45 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    color: #007bff;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.actions .btn {
+    background-color: #fff;
+    color: #007bff;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.actions .btn:hover {
+    background-color: #ccc;
+}
+
 h1 {
     text-align: center;
     margin-bottom: 20px;
