@@ -28,7 +28,7 @@ class Drink(models.Model):
 
 
 class Order(models.Model):
-    fio = models.CharField(max_length=50)
+    fio  = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=10)
     total_price = models.DecimalField(max_digits=8, decimal_places=2, null=True)

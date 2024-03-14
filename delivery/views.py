@@ -4,7 +4,7 @@ from django.views.generic import (ListView, DetailView,
                                   DeleteView, TemplateView)
 from django.urls import reverse_lazy
 from django.views import View
-from . import models, utils
+from . import models, utils, forms
 
 
 class MenuView(ListView):
@@ -33,28 +33,28 @@ class DrinkDetailView(DetailView):
 class FoodCreateView(CreateView):
     model = models.Food
     template_name = 'delivery/food_create.html'
-    fields = ['name', 'price', 'weight', 'description', 'photo']
+    form_class = forms.FoodForm
     success_url = reverse_lazy('menu')
 
 
 class DrinkCreateView(CreateView):
     model = models.Drink
     template_name = 'delivery/drink_create.html'
-    fields = ['name', 'price', 'volume', 'photo']
+    form_class = forms.DrinkForm
     success_url = reverse_lazy('menu')
 
 
 class FoodUpdateView(UpdateView):
     model = models.Food
     template_name = 'delivery/food_update.html'
-    fields = ['name', 'price', 'weight', 'description', 'photo']
+    form_class = forms.FoodForm
     success_url = reverse_lazy('menu')
 
 
 class DrinkUpdateView(UpdateView):
     model = models.Drink
     template_name = 'delivery/drink_update.html'
-    fields = ['name', 'price', 'volume', 'photo']
+    form_class = forms.DrinkForm
     success_url = reverse_lazy('menu')
 
 
@@ -71,12 +71,15 @@ class DrinkDeleteView(DeleteView):
 class OrderCreateView(TemplateView):
     template_name = 'delivery/create_order.html'
 
-    @staticmethod
-    def post(request):
-        request.session['fio'] = request.POST['fio']
-        request.session['address'] = request.POST['address']
-        request.session['phone_number'] = request.POST['phone_number']
-        return redirect('ordered_products')
+    def post(self, request):
+        form = forms.OrderForm(request.POST)
+        if form.is_valid():
+            request.session['fio'] = form.cleaned_data['fio']
+            request.session['address'] = form.cleaned_data['address']
+            request.session['phone_number'] = form.cleaned_data['phone_number']
+            return redirect('ordered_products')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class OrderProductsCreateView(View):
