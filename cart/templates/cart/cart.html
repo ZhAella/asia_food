@@ -1,0 +1,47 @@
+{% extends 'cart/base.html' %}
+{% block title %}My Cart{% endblock %}
+
+{% block content %}
+<form action="{% url 'cart:view_cart' %}" method="POST">
+    {% csrf_token %}
+    <div class="cart-container">
+        <h2>Shopping Cart</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in foods_cart %}
+                <tr>
+                    <td>{{ food.name }}</td>
+                    <td><img src="{{ food.photo.url }}" alt="{{ food.name }}"></td>
+                    <td>{{ food.price }}</td>
+                    <td><input type="number" value="1" min="1" max="10" name="quantity{{ food.id }}"></td>
+                    <td><a href="{% url 'cart:delete_food' food.id %}" class="delete button">Delete</a></td>
+                </tr>
+                {% endfor %}
+                {% for drink in drinks_cart %}
+                <tr>
+                    <td>{{ drink.name }}</td>
+                    <td><img src="{{ drink.photo.url }}" alt="{{ drink.name }}"></td>
+                    <td>{{ drink.price }}</td>
+                    <td><input type="number" value="1" min="1" max="10" name="quantity{{ drink.id }}"></td>
+                    <td><a href="{% url 'cart:delete_drink' drink.id %}" class="delete button">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form action="{% url 'cart:checkout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-detail">Next</button>
+        </form>
+        <a href="{% url 'menu' %}" class="btn-detail">Back</a>
+    </div>
+</form>
+{% endblock %}

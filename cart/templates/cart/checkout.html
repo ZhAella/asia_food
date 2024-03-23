@@ -1,0 +1,15 @@
+{% extends 'cart/base.html' %}
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <h1>Thank You for Your Order!</h1>
+    <p>Your order has been successfully placed.</p>
+    <div class="total-price">
+        <p>Total Price: {{total_price }}KGS</p>
+    </div>
+    <div class="form-group">
+        <a href="{% url 'menu' %}" class="btn-detail">Back to Menu</a>
+    </div>
+</div>
+{% endblock %}

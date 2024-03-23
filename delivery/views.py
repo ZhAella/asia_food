@@ -1,19 +1,51 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.views.generic import (ListView, DetailView,
                                   CreateView, UpdateView,
                                   DeleteView, TemplateView)
 from django.urls import reverse_lazy
 from django.views import View
 from . import models, utils, forms
+from cart.models import CartOrder
+
+
+class SignUpView(CreateView):
+    model = models.CustomerUser
+    template_name = 'delivery/sign_up.html'
+    form_class = forms.CustomerUserForm
+    success_url = reverse_lazy('menu')
+
+
+def sign_in(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            redirect('menu')
+
+    return render(request, 'delivery/sign_in.html')
+
+
+def log_out(request):
+    logout(request)
+    return redirect('')
 
 
 class MenuView(ListView):
-    model = models.Food
+    model = models.FoodType
     template_name = 'delivery/menu.html'
-    context_object_name = 'foods'
+    context_object_name = 'food_types'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        food_types = context['food_types']
+        foods_by_type = {}
+        for food_type in food_types:
+            foods_by_type[food_type] = food_type.food_set.all()
+        context['foods_by_type'] = foods_by_type
         context['drinks'] = models.Drink.objects.all()
         return context
 
@@ -35,6 +67,15 @@ class FoodCreateView(CreateView):
     template_name = 'delivery/food_create.html'
     form_class = forms.FoodForm
     success_url = reverse_lazy('menu')
+
+    def form_valid(self, form):
+        food_type = form.cleaned_data['type']
+        new_food_type = form.cleaned_data['new_food_type']
+
+        if new_food_type:
+            food_type = models.FoodType.objects.create(name=new_food_type)
+
+        return super().form_valid(form)
 
 
 class DrinkCreateView(CreateView):
@@ -71,6 +112,13 @@ class DrinkDeleteView(DeleteView):
 class OrderCreateView(TemplateView):
     template_name = 'delivery/create_order.html'
 
+    @login_required
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = forms.OrderForm()
+        return context
+
+    @login_required
     def post(self, request):
         form = forms.OrderForm(request.POST)
         if form.is_valid():
@@ -83,7 +131,9 @@ class OrderCreateView(TemplateView):
 
 
 class OrderProductsCreateView(View):
+
     @staticmethod
+    @login_required
     def get(request):
         foods = models.Food.objects.all()
         drinks = models.Drink.objects.all()
@@ -93,6 +143,7 @@ class OrderProductsCreateView(View):
                       )
 
     @staticmethod
+    @login_required
     def post(request):
         food_ids = request.POST.getlist('foods')
         drink_ids = request.POST.getlist('drinks')
@@ -127,6 +178,11 @@ class OrderListView(ListView):
     template_name = 'delivery/orders_list.html'
     context_object_name = 'orders'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart_orders'] = CartOrder.objects.all()
+        return context
+
 
 class OrderDetailView(DetailView):
     model = models.Order
@@ -139,4 +195,21 @@ class OrderDetailView(DetailView):
         order_drinks = order.orderdrink_set.all()
         context['order_foods'] = order_foods
         context['order_drinks'] = order_drinks
+        context['total_price'] = order.total_price
+        return context
+
+
+class CartOrderDetailView(DetailView):
+    models = CartOrder
+    queryset = CartOrder.objects.all()
+    template_name = 'delivery/orders_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_order = self.get_object()
+        foods_item = cart_order.foodcartitem_set.all()
+        drinks_item = cart_order.drinkcartitem_set.all()
+        context['foods_item'] = foods_item
+        context['drinks_item'] = drinks_item
+        context['total_price'] = cart_order.total_price
         return context

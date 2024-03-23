@@ -1,0 +1,187 @@
+[
+{
+  "model": "delivery.food",
+  "pk": 1,
+  "fields": {
+    "name": "Peperoni pizza",
+    "price": "490.00",
+    "weight": "1.00",
+    "photo": "media/images/pizza_peperroni.webp",
+    "description": "qwertyuiop"
+  }
+},
+{
+  "model": "delivery.food",
+  "pk": 5,
+  "fields": {
+    "name": "Sushi Philadelphia",
+    "price": "395.00",
+    "weight": "1.00",
+    "photo": "media/images/sushi_ph.png",
+    "description": "qwertyu"
+  }
+},
+{
+  "model": "delivery.food",
+  "pk": 6,
+  "fields": {
+    "name": "Sushi Dragon",
+    "price": "585.00",
+    "weight": "1.00",
+    "photo": "media/images/sushi_dragon.png",
+    "description": "Eel, sesame, salmon, soft cheese, cucumber, nori, rice"
+  }
+},
+{
+  "model": "delivery.food",
+  "pk": 7,
+  "fields": {
+    "name": "Sushi Juicy Salmon",
+    "price": "290.00",
+    "weight": "1.00",
+    "photo": "media/images/juicy_salmon.png",
+    "description": "Iceberg salad, salmon, spicy sauce, nori, rice"
+  }
+},
+{
+  "model": "delivery.food",
+  "pk": 8,
+  "fields": {
+    "name": "Sushi Hokaido",
+    "price": "329.00",
+    "weight": "1.00",
+    "photo": "media/images/hokaido500.png",
+    "description": "Iceberg lettuce, white sauce, sesame, tomato, smoked chicken, soft cheese, nori, rice"
+  }
+},
+{
+  "model": "delivery.drink",
+  "pk": 2,
+  "fields": {
+    "name": "pepsi",
+    "price": "80.00",
+    "volume": "1.00",
+    "photo": "media/images/pnli46wgrd4lkra4cw1zfj2bgb0cpcla.jpg"
+  }
+},
+{
+  "model": "delivery.drink",
+  "pk": 4,
+  "fields": {
+    "name": "Coca-Cola",
+    "price": "80.00",
+    "volume": "1.00",
+    "photo": "media/images/cola.webp"
+  }
+},
+{
+  "model": "delivery.drink",
+  "pk": 5,
+  "fields": {
+    "name": "Fanta orange",
+    "price": "80.00",
+    "volume": "1.00",
+    "photo": "media/images/fanta.webp"
+  }
+},
+{
+  "model": "delivery.drink",
+  "pk": 6,
+  "fields": {
+    "name": "Juice Piko Orange",
+    "price": "80.00",
+    "volume": "1.00",
+    "photo": "media/images/piko-pulpy-orange_product_image-desktop.webp"
+  }
+},
+{
+  "model": "delivery.drink",
+  "pk": 7,
+  "fields": {
+    "name": "Sprite",
+    "price": "80.00",
+    "volume": "1.00",
+    "photo": "media/images/sprite.jpg"
+  }
+},
+{
+  "model": "delivery.order",
+  "pk": 6,
+  "fields": {
+    "fio": "Aella",
+    "address": "Bishkek",
+    "phone_number": "1234567890",
+    "total_price": "495.00"
+  }
+},
+{
+  "model": "delivery.order",
+  "pk": 7,
+  "fields": {
+    "fio": "aella",
+    "address": "usa",
+    "phone_number": "1234567890",
+    "total_price": "1455.00"
+  }
+},
+{
+  "model": "delivery.order",
+  "pk": 8,
+  "fields": {
+    "fio": "Aella",
+    "address": "Italy",
+    "phone_number": "111111111111",
+    "total_price": "395.00"
+  }
+},
+{
+  "model": "delivery.orderfood",
+  "pk": 2,
+  "fields": {
+    "food": 1,
+    "quantity": 1,
+    "order": 6,
+    "price": "495.00"
+  }
+},
+{
+  "model": "delivery.orderfood",
+  "pk": 3,
+  "fields": {
+    "food": 1,
+    "quantity": 2,
+    "order": 7,
+    "price": "980.00"
+  }
+},
+{
+  "model": "delivery.orderfood",
+  "pk": 4,
+  "fields": {
+    "food": 5,
+    "quantity": 1,
+    "order": 7,
+    "price": "395.00"
+  }
+},
+{
+  "model": "delivery.orderfood",
+  "pk": 5,
+  "fields": {
+    "food": 5,
+    "quantity": 1,
+    "order": 8,
+    "price": "395.00"
+  }
+},
+{
+  "model": "delivery.orderdrink",
+  "pk": 2,
+  "fields": {
+    "drink": 5,
+    "quantity": 1,
+    "order": 7,
+    "price": "80.00"
+  }
+}
+]

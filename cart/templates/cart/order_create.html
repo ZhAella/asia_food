@@ -1,8 +1,8 @@
 {% extends 'delivery/base.html' %}
-{% block title %}make order{% endblock %}
+{% block title %}Order To{% endblock %}
 
 {% block content %}
-    <form action="{% url 'create_order' %}" method="POST" enctype="multipart/form-data" class="make-order-container">
+    <form action="{% url 'cart:checkout' %}" method="POST" enctype="multipart/form-data" class="make-order-container">
         {% csrf_token %}
         <h1>Make order</h1>
         {% for field in form %}
@@ -10,7 +10,7 @@
             {{ field.errors }}
         {% endfor %}
         <div class="form-group">
-            <button type="submit" class="btn-next">Next</button>
+            <button type="submit" class="btn-detail">Checkout</button>
         </div>
     </form>
 {% endblock %}

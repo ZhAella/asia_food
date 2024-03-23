@@ -30,7 +30,26 @@
                             <td>{{ order_drink.price }} KGS</td>
                         </tr>
                         {% endfor %}
+                        {% for food_item in foods_item %}
+                        <tr>
+                            <td>{{ food_item.food.name }}</td>
+                            <td><img src="{{ food_item.food.photo.url }}" alt="{{ food_item.food.name }}"></td>
+                            <td>{{ food_item.quantity }}</td>
+                            <td>{{ food_item.food.price }} KGS</td>
+                        </tr>
+                        {% endfor %}
+                        {% for drink_item in drinks_item %}
+                        <tr>
+                            <td>{{ drink_item.drink.name }}</td>
+                            <td><img src="{{ drink_item.drink.photo.url }}" alt="{{ drink_item.drink.name }}"></td>
+                            <td>{{ drink_item.quantity }}</td>
+                            <td>{{ drink_item.drink.price }} KGS</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
             </table>
+    <div class="total-price">
+        <p>Total Price: {{total_price }}KGS</p>
+    </div>
 </div>
 {% endblock %}

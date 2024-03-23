@@ -1,0 +1,11 @@
+{% extends 'delivery/base.html' %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+    <div class="sign-up-container">
+        <h2>Sign Up</h2>
+        <form action="{% url 'sign_up' %}" class="signup-form">
+            {{ form }}
+        </form>
+    </div>
+{% endblock %}

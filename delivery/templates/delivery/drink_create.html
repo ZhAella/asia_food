@@ -1,13 +1,13 @@
 {% extends 'delivery/base.html' %}
-{% block title %}Update{% endblock %}
+{% block title %}Add drink{% endblock %}
 
 {% block content %}
-  <form action="{% url 'drink_create' %}" method="POST"  enctype="multipart/form-data" class="update-product-container">
+    <form action="{% url 'drink_create' %}" method="POST"  enctype="multipart/form-data" class="update-product-container">
       {% csrf_token %}
           <h1>Add drink</h1>
               {{ form }}
               <div class="form-group">
                   <button type="submit" class="btn-update">Add</button>
               </div>
-  </form>
+    </form>
 {% endblock %}

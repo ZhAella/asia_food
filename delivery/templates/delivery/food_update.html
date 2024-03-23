@@ -2,7 +2,7 @@
 {% block title %}Update{% endblock %}
 
 {% block content %}
-  <form action="{% url 'food_update' food.id %}" method="POST"  enctype="multipart/form-data" class="update-product-container">
+    <form action="{% url 'food_update' food.id %}" method="POST"  enctype="multipart/form-data" class="update-product-container">
       {% csrf_token %}
           <h1>Update</h1>
           <form class="update-product-form">
@@ -12,5 +12,5 @@
               </div>
           </form>
       </div>
-  </form>
+    </form>
 {% endblock %}
