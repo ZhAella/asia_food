@@ -71,9 +71,9 @@ class FoodCreateView(CreateView):
     def form_valid(self, form):
         food_type = form.cleaned_data['type']
         new_food_type = form.cleaned_data['new_food_type']
-
         if new_food_type:
             food_type = models.FoodType.objects.create(name=new_food_type)
+        form.instance.type = food_type
 
         return super().form_valid(form)
 

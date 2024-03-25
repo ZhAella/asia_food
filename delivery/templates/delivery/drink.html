@@ -18,6 +18,10 @@
                 <a href="{% url 'drink_update' drink.id %}" class="btn-update">Update</a>
                 <a href="{% url 'drink_delete' drink.id %}" class="btn-delete">Delete</a>
                 <a href="{% url 'menu' %}" class="btn-back">Back</a>
+                <form action="{% url 'cart:add_drink' drink.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-submit">Add to Cart</button>
+                </form>
             </div>
         </div>
     </div>

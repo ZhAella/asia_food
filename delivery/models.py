@@ -23,7 +23,7 @@ class Food(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     weight = models.DecimalField(max_digits=3, decimal_places=2)
     photo = models.ImageField(upload_to=IMAGES_ROOT, null=True)
-    type = models.ForeignKey(FoodType, on_delete=models.DO_NOTHING, null=True)
+    type = models.ForeignKey(FoodType, on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField()
 
     def __str__(self):

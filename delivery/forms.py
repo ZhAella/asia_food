@@ -57,7 +57,7 @@ class FoodForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FoodForm, self).__init__(*args, **kwargs)
-
+        self.fields['type'].required = False
         self.fields = {
             'name': self.fields['name'],
             'price': self.fields['price'],
