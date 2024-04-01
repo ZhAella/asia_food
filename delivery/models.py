@@ -2,7 +2,6 @@ import os
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.contrib.postgres.indexes import GinIndex
 
 
 IMAGES_ROOT = os.path.relpath(os.path.join(settings.MEDIA_ROOT, 'images'))
@@ -27,12 +26,6 @@ class Food(models.Model):
     type = models.ForeignKey(FoodType, on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField()
 
-    class Meta:
-        indexes = [GinIndex(fields=['name'])]
-
-    def __unicode__(self):
-        return self.name
-
     def __str__(self):
         return self.name
 
@@ -52,6 +45,7 @@ class Order(models.Model):
     address = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=12)
     total_price = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+    time = models.DateTimeField(auto_now=True, auto_created=True, null=True)
 
     def __str__(self):
         return f'Order to name {self.fio}'

@@ -10,6 +10,7 @@
                 <th>Client Name</th>
                 <th>Address</th>
                 <th>Phone Number</th>
+                <th>Time</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -19,6 +20,7 @@
                 <td>{{ order.fio }}</td>
                 <td>{{ order.address }}</td>
                 <td>{{ order.phone_number }}</td>
+                <td>{{ order.time }}</td>
                 <td><a href="{% url 'order_detail' order.pk %}" class="view-btn">View</a></td>
             </tr>
             {% endfor %}
@@ -27,6 +29,7 @@
                 <td>{{ order.fio }}</td>
                 <td>{{ order.address }}</td>
                 <td>{{ order.phone_number }}</td>
+                <td>{{ order.time }}</td>
                 <td><a href="{% url 'cart_order_detail' order.pk %}" class="view-btn">View</a></td>
             </tr>
             {% endfor %}
