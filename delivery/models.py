@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.indexes import GinIndex
 
 
 IMAGES_ROOT = os.path.relpath(os.path.join(settings.MEDIA_ROOT, 'images'))
@@ -25,6 +26,12 @@ class Food(models.Model):
     photo = models.ImageField(upload_to=IMAGES_ROOT, null=True)
     type = models.ForeignKey(FoodType, on_delete=models.DO_NOTHING, null=True, blank=True)
     description = models.TextField()
+
+    class Meta:
+        indexes = [GinIndex(fields=['name'])]
+
+    def __unicode__(self):
+        return self.name
 
     def __str__(self):
         return self.name

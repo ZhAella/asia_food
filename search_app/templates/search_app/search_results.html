@@ -1,0 +1,22 @@
+{% extends 'search_app/base.html' %}
+{% block title %} Results {% endblock %}
+
+{% block content %}
+<div class="search-results">
+        <h1>Search Results</h1>
+        <ul>
+            {% for food_result in food_results %}
+                <li>
+                    <a href="{% url 'food_detail' food_result.0 %}">{{ food_result.1 }}</a>
+                    <p>Description of Result 1</p>
+                </li>
+            {% endfor %}
+            {% for drink_result in drink_results %}
+                <li>
+                    <a href="{% url 'drink_detail' drink_result.0 %}">{{ drink_result.1 }}</a>
+                    <p>Description of Result 1</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

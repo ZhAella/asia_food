@@ -112,13 +112,11 @@ class DrinkDeleteView(DeleteView):
 class OrderCreateView(TemplateView):
     template_name = 'delivery/create_order.html'
 
-    @login_required
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = forms.OrderForm()
         return context
 
-    @login_required
     def post(self, request):
         form = forms.OrderForm(request.POST)
         if form.is_valid():
@@ -133,7 +131,6 @@ class OrderCreateView(TemplateView):
 class OrderProductsCreateView(View):
 
     @staticmethod
-    @login_required
     def get(request):
         foods = models.Food.objects.all()
         drinks = models.Drink.objects.all()
@@ -143,7 +140,6 @@ class OrderProductsCreateView(View):
                       )
 
     @staticmethod
-    @login_required
     def post(request):
         food_ids = request.POST.getlist('foods')
         drink_ids = request.POST.getlist('drinks')
